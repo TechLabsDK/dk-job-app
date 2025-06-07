@@ -5,6 +5,7 @@ import Prediction from './pages/Prediction';
 import Results from './pages/Results';
 import Tracking from './pages/Tracking';
 import VerifyCode from './pages/VerifyCode';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
   return (
@@ -12,9 +13,11 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/verify-code" element={<VerifyCode />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/prediction" element={<Prediction />} />
-      <Route path="/results" element={<Results />} />
-      <Route path="/traking" element={<Tracking />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/prediction" element={<Prediction />} />
+        <Route path="/results" element={<Results />} />
+        <Route path="/traking" element={<Tracking />} />
+      </Route>
     </Routes>
   );
 }
