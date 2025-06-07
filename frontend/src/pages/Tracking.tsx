@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import background from '../assets/group_positive_ppl.svg';
 import dropdownArrow from '../assets/dropdown-arrow.svg';
+import useLogout from '../hooks/useLogout';
 
 import { useState } from 'react';
 
@@ -11,6 +12,9 @@ const applications = [
 
 export default function TrakingDashboard() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleLogout = useLogout();
+  
   return (
     <div
       className="relative w-full h-screen bg-cover bg-center text-white"
@@ -31,7 +35,12 @@ export default function TrakingDashboard() {
           <div className="mt-2 bg-white shadow-lg rounded-md absolute right-0 w-40 py-2 text-base">
             <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
             <Link to="/settings" className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
-            <Link to="/" className="block px-4 py-2 hover:bg-gray-100">Logout</Link>
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              Logout
+            </button>
           </div>
         )}
       </div>

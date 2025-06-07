@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import dropdownArrow from '../assets/dropdown-arrow.svg';
+import useLogout from '../hooks/useLogout';
 
 export default function ResultsPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [score, setScore] = useState<number | null>(null);
   const [recommendations, setRecommendations] = useState<string[]>([]);
+
+  const handleLogout = useLogout();
 
   useEffect(() => {
     // Simulate ML result
@@ -43,7 +46,12 @@ export default function ResultsPage() {
           <div className="mt-2 bg-white shadow-lg rounded-md absolute right-0 w-40 py-2 text-base text-black">
             <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
             <Link to="/settings" className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
-            <Link to="/" className="block px-4 py-2 hover:bg-gray-100">Logout</Link>
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              Logout
+            </button>
           </div>
         )}
       </div>

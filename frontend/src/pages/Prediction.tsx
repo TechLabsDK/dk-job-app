@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom';
 import dropdownArrow from '../assets/dropdown-arrow-black.svg';
+import useLogout from '../hooks/useLogout';
+
 
 import { useState } from 'react';
 
 export default function PredictionForm() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleLogout = useLogout();
+
   return (
     <div className="relative w-full h-screen bg-cover bg-center text-black">
       {/* Header */}
@@ -25,7 +30,12 @@ export default function PredictionForm() {
           <div className="mt-2 bg-white shadow-lg rounded-md absolute right-0 w-40 py-2 text-base">
             <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
             <Link to="/settings" className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
-            <Link to="/" className="block px-4 py-2 hover:bg-gray-100">Logout</Link>
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              Logout
+            </button>
           </div>
         )}
       </div>
