@@ -45,16 +45,39 @@ function StartNowButton() {
   const [showInput, setShowInput] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    console.log('Submitted at:', email);
+
+    try {
+      const res = await fetch('http://localhost:4000/auth/request-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || 'Failed to request code');
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong.');
+    }
+  };
 
   return (
     <div className="mt-16 ml-auto mr-4 md:mr-20">
       {showInput ? (
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log('Submitted at:', email);
-            setSubmitted(true);
-          }}
+          onSubmit={handleSubmit}
           className="flex items-center bg-white text-black rounded-full px-4 py-3 w-[300px] md:w-[400px] transition-all duration-1500"
         >
           {submitted ? (
@@ -66,6 +89,7 @@ function StartNowButton() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
+                required
                 className="flex-grow bg-transparent outline-none text-xl pl-2"
               />
               <button type="submit" className="ml-3 text-3xl cursor-pointer">→</button>
@@ -81,6 +105,12 @@ function StartNowButton() {
           <span className="ml-6 text-4xl">→</span>
         </button>
       )}
+
+      {/* Error message (if any) */}
+      {error && (
+        <p className="mt-4 text-red-400 text-sm text-center">{error}</p>
+      )}
     </div>
   );
 }
+
