@@ -26,6 +26,7 @@ export default function Login() {
       // Store the session
       const data = await res.json();
       localStorage.setItem('token', data.token);
+      localStorage.setItem('email', email);
       navigate('/prediction');
     } catch (err: any) {
       setError(err.message || 'Something went wrong');
