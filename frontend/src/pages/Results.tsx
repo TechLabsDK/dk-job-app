@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import dropdownArrow from '../assets/dropdown-arrow.svg';
 import useLogout from '../hooks/useLogout';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+
+type PredictionResult = {
+  score: number;
+  recommendations: string[];
+};
 
 export default function ResultsPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -9,18 +16,26 @@ export default function ResultsPage() {
   const [recommendations, setRecommendations] = useState<string[]>([]);
 
   const handleLogout = useLogout();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const result = location.state as PredictionResult | null;
 
   useEffect(() => {
-    // Simulate ML result
-    setTimeout(() => {
-      setScore(85);
-      setRecommendations([
-        'Learn coding skills, i.e. Python',
-        'Level up Danish proficiency',
-        'Expand your network in the industry',
-      ]);
-    }, 800);
-  }, []);
+    if (!result || typeof result.score !== 'number') {
+      // Redirect if no valid result
+      navigate('/prediction');
+      return;
+    }
+
+    setScore(result.score);
+    setRecommendations(result.recommendations || []);
+  }, [result, navigate]);
+
+
+  const email = localStorage.getItem('email');
+  const username = email ? email.split('@')[0] : 'there';
+
 
   return (
     <div className="min-h-screen bg-[#232A2B] text-white relative px-8 py-12">
@@ -61,7 +76,7 @@ export default function ResultsPage() {
         {/* Left: Score */}
         <div className="pt-10 pl-70 flex flex-col items-start gap-8 lg:w-1/2">
           <h2 className="text-5xl font-bold leading-snug">
-            Hey, Dan! <br />
+            Hey, {username}! <br />
             This is your result:
           </h2>
           <div className="text-[10rem] font-bold leading-none mt-2">
@@ -86,7 +101,7 @@ export default function ResultsPage() {
           </div>
           <div className="pt-40 pl-90">
            <Link
-            to="/track"
+            to="/tracking"
             className="bg-transparent border border-white text-white text-4xl px-8 py-4 rounded-full flex items-center gap-3 hover:bg-white hover:text-black transition"
           >
             Track your progress here <span className="text-4xl">→</span>
