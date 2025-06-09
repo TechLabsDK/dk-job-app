@@ -1,8 +1,9 @@
-import { createUserIfNotExists, setUserPassword } from '../repositories/userRepository';
+import { createUserIfNotExists, setUserPassword, findUserByEmail } from '../repositories/userRepository';
 import { saveCode, validateCode, removeCode } from './codeStore';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export async function generateAndStoreVerificationCode(email: string) {
   const code = crypto.randomInt(100000, 999999).toString();
@@ -52,4 +53,23 @@ export async function verifyLoginCodeAndSetPassword(email: string, inputCode: st
 
   // remove the used code
   removeCode(email);
+}
+
+
+const JWT_SECRET = process.env.JWT_SECRET || 'default-secret'; // Load from .env in real use
+
+export async function loginUser(email: string, password: string) {
+  const user = await findUserByEmail(email);
+  if (!user || !user.password) {
+    throw new Error('Invalid email or password');
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error('Invalid email or password');
+  }
+
+  // Token payload can include user ID or email
+  const token = jwt.sign({ email: user.email }, JWT_SECRET);
+  return token;
 }
