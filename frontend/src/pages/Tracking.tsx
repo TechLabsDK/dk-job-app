@@ -63,7 +63,7 @@ export default function TrakingDashboard() {
           <img src={dropdownArrow} alt="arrow" className="ml-2 w-9 h-9 object-contain self-end relative top-[3px]" />
         </button>
         {dropdownOpen && (
-          <div className="mt-2 bg-white shadow-lg rounded-md absolute right-0 w-40 py-2 text-base">
+          <div className="mt-2 bg-white shadow-lg rounded-md absolute right-0 w-40 py-2 text-base text-black">
             <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
             <Link to="/settings" className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
             <button
