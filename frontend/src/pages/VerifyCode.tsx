@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function VerifyCodePage() {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
+  const email = searchParams.get('email');
+  const code = searchParams.get('code');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -17,10 +18,10 @@ export default function VerifyCodePage() {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:4000/auth/verify-code', {
+      const res = await fetch('http://localhost:4000/auth/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, password }),
+        body: JSON.stringify({ email, code, password }),
       });
 
       if (!res.ok) {
@@ -37,7 +38,7 @@ export default function VerifyCodePage() {
     }
   };
 
-  if (!token) {
+  if (!email || !code) {
     return <div className="text-center p-10 text-xl text-red-500">Missing or invalid verification link.</div>;
   }
 

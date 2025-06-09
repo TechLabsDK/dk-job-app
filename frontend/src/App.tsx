@@ -11,7 +11,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/verify-code" element={<VerifyCode />} />
+      <Route path="/verify" element={<VerifyCode />} />
       <Route path="/login" element={<Login />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/prediction" element={<Prediction />} />
