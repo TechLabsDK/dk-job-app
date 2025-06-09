@@ -63,11 +63,12 @@ export async function loginUser(email: string, password: string) {
   if (!user || !user.password) {
     throw new Error('Invalid email or password');
   }
-
   const isMatch = await bcrypt.compare(password, user.password);
+  console.log(`Password match result: ${isMatch}`);
   if (!isMatch) {
     throw new Error('Invalid email or password');
   }
+  
 
   // Token payload can include user ID or email
   const token = jwt.sign({ email: user.email }, JWT_SECRET);

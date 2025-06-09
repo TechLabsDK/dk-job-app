@@ -4,6 +4,6 @@ import { getPrediction } from '../controllers/predictionController';
 
 const router = Router();
 
-router.get('/predict', authenticateToken, getPrediction); // if the first function fails, the second one will never be called
+router.post('/predict', authenticateToken, getPrediction); // if the first function fails, the second one will never be called
 
 export default router;
