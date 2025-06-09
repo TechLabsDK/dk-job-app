@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { generateAndStoreVerificationCode, verifyLoginCodeAndSetPassword } from '../services/authService';
+import { generateAndStoreVerificationCode, verifyLoginCodeAndSetPassword, loginUser } from '../services/authService';
 
 export async function requestLoginCode(req: Request, res: Response) {
   const { email } = req.body;
@@ -28,5 +28,20 @@ export async function verifyLoginCode(req: Request, res: Response) {
   } catch (error: any) {
     console.error(error);
     res.status(400).json({ message: error.message || 'Verification failed.' });
+  }
+}
+
+export async function login(req: Request, res: Response) {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
+
+  try {
+    const token = await loginUser(email, password);
+    res.status(200).json({ token });
+  } catch (err: any) {
+    res.status(401).json({ message: err.message });
   }
 }
