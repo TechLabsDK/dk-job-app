@@ -5,6 +5,6 @@ const router = Router();
 
 router.post('/request-code', requestLoginCode);
 router.post('/verify', verifyLoginCode);
-router.post('/auth/login', login);
+router.post('/login', login);
 
 export default router;

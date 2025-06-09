@@ -69,6 +69,7 @@ Backend server for BetterApply — helps internationals predict job chances in D
 - [x] Add user account to the DB
 - [x] Login functionality
 - [ ] Predict job match score
+- [x] Tracking functionality
 
 ---
 
