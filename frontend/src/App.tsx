@@ -16,7 +16,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/prediction" element={<Prediction />} />
         <Route path="/results" element={<Results />} />
-        <Route path="/traking" element={<Tracking />} />
+        <Route path="/tracking" element={<Tracking />} />
       </Route>
     </Routes>
   );
