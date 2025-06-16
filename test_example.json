@@ -1,0 +1,23 @@
+{
+    "english_proficiency": 4,
+    "danish_proficiency_encoded": 3,
+    "prior_dk_experience_encoded": 0,
+    "living_in_denmark_encoded": 1,
+    "role_grouped_it_data": 1,
+    "location_Copenhagen": 1,
+    "major_grouped_science": 1,
+    "education_level_Master's": 1,
+    "skill_python": 1,
+    "skill_sql": 1,
+    "skill_data analysis":1,
+    "skill_machine learning": 1,
+    "skill_data cleaning": 1,
+    "skill_pandas": 1,
+    "skill_numpy": 1,
+    "tool_python": 1,
+    "tool_jupyter": 1,
+    "tool_sql": 1,
+    "tool_tableau": 1,
+    "tool_github": 1,
+    "visa_status_Job Seeker Visa": 1
+}
