@@ -6,14 +6,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 
 type PredictionResult = {
-  score: number;
-  recommendations: string[];
+  probability: number;
+  prediction: string;
 };
 
 export default function ResultsPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [score, setScore] = useState<number | null>(null);
-  const [recommendations, setRecommendations] = useState<string[]>([]);
+  const [probability, setProbability] = useState<number | null>(null);
+  const [prediction, setPrediction] = useState<string>('');
 
   const handleLogout = useLogout();
   const location = useLocation();
@@ -22,14 +22,14 @@ export default function ResultsPage() {
   const result = location.state as PredictionResult | null;
 
   useEffect(() => {
-    if (!result || typeof result.score !== 'number') {
+    if (!result || typeof result.probability !== 'number') {
       // Redirect if no valid result
       navigate('/prediction');
       return;
     }
 
-    setScore(result.score);
-    setRecommendations(result.recommendations || []);
+    setProbability(result.probability);
+    setPrediction(result.prediction || '');
   }, [result, navigate]);
 
 
@@ -73,31 +73,23 @@ export default function ResultsPage() {
 
       {/* Main Content */}
       <div className="pt-50 mx-20 flex flex-col lg:flex-row justify-between items-start">
-        {/* Left: Score */}
+        {/* Left: Probability */}
         <div className="pt-10 pl-70 flex flex-col items-start gap-8 lg:w-1/2">
           <h2 className="text-5xl font-bold leading-snug">
             Hey, {username}! <br />
             This is your result:
           </h2>
           <div className="text-[10rem] font-bold leading-none mt-2">
-            {score !== null ? score : '--'}
+            {probability !== null ? probability : '--'}
           </div>
           <div className="italic text-2xl mt-2">out of 100</div>
         </div>
 
-        {/* Right: Recommendations */}
+        {/* Right: Prediction */}
         <div className="pt-25 flex flex-col items-center gap-15 lg:w-1/2">
           <h3 className="text-3xl font-semibold">It is recommended to:</h3>
           <div className="bg-white text-black px-10 py-8 rounded-[3rem] w-full max-w-xl">
-            <ul className="list-disc pl-5 space-y-2 text-2xl">
-              {recommendations.length > 0 ? (
-                recommendations.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))
-              ) : (
-                <li>Loading recommendations...</li>
-              )}
-            </ul>
+            <p className="text-2xl">{prediction || 'Loading prediction...'}</p>
           </div>
           <div className="pt-40 pl-90">
            <Link
